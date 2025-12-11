@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { FiArrowUp } from "react-icons/fi";
 import img from './assets/assest.ts'
 import './home.css'
 import gsap from 'gsap'
@@ -6,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import TextAnimation from './components/TextAnimation.tsx';
 import Project from './components/Project.tsx';
+import CardStack from './components/CardStack.tsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,11 +50,28 @@ const Home = () => {
 
   return (
     <>
+<a
+  href={img.cv}
+  download
+  className="btn-download"
+>
+  Download CV
+</a>
+
+
+<button
+  className="btn-scroll-top animate-bounce"
+  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+>
+  <FiArrowUp size={24} />
+</button>
+
+
       <section className='hero'>
         <TextAnimation animateOnScroll>
-        <h1>
-          Hi, I'm Ajith K V — I build digital products that feel effortless, look modern, and scale without drama.
-        </h1>
+          <h1>
+            Hi, I'm Ajith K V — I build digital products that feel effortless, look modern, and scale without drama.
+          </h1>
         </TextAnimation>
       </section>
 
@@ -64,7 +83,7 @@ const Home = () => {
           </div>
         </div>
 
-  
+
         <div className="rows">
           <div className="col">
             <div className="card">
@@ -84,7 +103,7 @@ const Home = () => {
           </div>
         </div>
 
-     
+
         <div className="rows">
           <div className="col">
             <div className="img">
@@ -112,28 +131,31 @@ const Home = () => {
         </div>
 
         <div className="svg-path">
-<svg width="1414" height="3651" viewBox="0 0 1414 3651" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path
-   id='stroke-path'
-   d="M637.575 96.337C637.575 96.337 17.0751 -42.6631 97.0754 981.337C177.076 2005.34 977.074 885.337 1289.08 1989.34C1601.08 3093.34 -301.925 2947.34 234.075 2083.34C770.075 1219.34 695.075 2992.34 839.075 3560.34" stroke="#F6D3BD" stroke-width="180" stroke-linecap="round"/>
-</svg>
+          <svg width="1414" height="3651" viewBox="0 0 1414 3651" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              id='stroke-path'
+              d="M637.575 96.337C637.575 96.337 17.0751 -42.6631 97.0754 981.337C177.076 2005.34 977.074 885.337 1289.08 1989.34C1601.08 3093.34 -301.925 2947.34 234.075 2083.34C770.075 1219.34 695.075 2992.34 839.075 3560.34" stroke="#F6D3BD" stroke-width="180" stroke-linecap="round" />
+          </svg>
         </div>
 
       </section>
 
       <section className='outro'>
-        <TextAnimation animateOnScroll  blockColor="#F6D3BD" >
-        <h1>
-          Whether you need a product built from scratch or a system engineered for scale —  
-          I'm here to bring clarity, structure, and sharp execution to every line of code.
-        </h1>
+        <TextAnimation animateOnScroll blockColor="#F6D3BD" >
+          <h1>
+            Whether you need a product built from scratch or a system engineered for scale —
+            I'm here to bring clarity, structure, and sharp execution to every line of code.
+          </h1>
         </TextAnimation>
       </section>
 
+      <section className='stack-cards'>
+        <CardStack />
+      </section>
 
-    <section id='work'>
-<Project/>
-    </section>
+      <section id='work'>
+        <Project />
+      </section>
 
     </>
   )

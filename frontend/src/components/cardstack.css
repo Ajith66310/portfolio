@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&family=Neucha&family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --base-100: #ffffff;
+  --base-200: #deded5;
+  --base-300: #0e0e0e;
+  --base-400: #b300ff;
+  --base-500: #aaff00;
+
+  /* FONT VARIABLES */
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-body: "Manrope", sans-serif;
+  --font-decorative: "Neucha", cursive;
+}
+
+.stack-intro h1 {
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2.5rem;
+}
+
+.card h1 {
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2.5rem;
+}
+
+.card p {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.stack-outro,
+.stack-intro {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+.stack-intro {
+  background-color: var(--base-100);
+  color: black;
+}
+
+.stack-outro {
+  background-color: var(--base-300);
+  color: white;
+}
+
+/* FIXED CSS */
+.stack-outro h1,
+.stack-intro h1 {
+  margin-bottom: 0;
+}
+
+.cards {
+  position: relative;
+}
+
+.card-inner {
+  position: relative;
+  will-change: transform;
+  width: 100%;
+  height: 100%;
+  padding: 2em;
+  display: flex;
+  gap: 4em;
+}
+
+.card-content {
+  flex: auto;
+}
+
+.social-links a {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+  transition: 0.3s ease;
+}
+
+.social-links a:hover {
+  opacity: 0.6;
+}
+
+.social-links .icon {
+  font-size: 1.4rem;
+}
+
+
+#card-1 .card-inner {
+  background-color: limegreen;
+}
+
+#card-2 .card-inner {
+  background-color: var(--base-200);
+}
+
+#card-3 .card-inner {
+  background-color: var(--base-500);
+}
+
+#card-4 .card-inner {
+  background-color: var(--base-400);
+}
+
+
+.right-text {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.quote-heading {
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #000;
+}
+
+.quote-author {
+  display: block;
+  margin-top: 1rem;
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: var(--font-body);
+  opacity: 0.8;
+}
+
+
+
+@media (max-width: 900px) {
+  .stack-intro {
+    flex-direction: column;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .right-text {
+    width: 100%;
+    padding: 0 1rem;
+    align-items: center;
+  }
+
+  .quote-heading {
+    font-size: 2.5rem; /* smaller text */
+  }
+
+  .quote-author {
+    font-size: 1.5rem; /* smaller author text */
+  }
+}
+
+@media (max-width: 500px) {
+  .quote-heading {
+    font-size: 2rem;
+  }
+
+  .quote-author {
+    font-size: 1.2rem;
+  }
+}

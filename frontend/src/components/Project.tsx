@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import { projects } from "../assets/assest";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(useGSAP);
 
 interface ProjectItem {
   name: string;
@@ -95,14 +96,14 @@ for (let i = 0; i < projects.length; i += 2) {
   return (
     <>
       <header>
-        <h1>Featured Work</h1>
+        <h1 >Featured Work</h1>
       </header>
 
-      <section className="work"></section>
+      <section className="work selection:bg-black selection:text-white "></section>
 
 
       <footer>
-        <p className="animate-bounce">Developed by Ajith k v</p>
+        <p>Developed by Ajith k v</p>
         <p>All rights reserved © 2026</p>
       </footer>
     </>
