@@ -254,3 +254,19 @@ margin: 0 auto;
   z-index: 1;
 }
 
+.small-screen-warning {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  color: #000000;
+  font-family: 'Manrope', sans-serif;
+  padding: 2rem;
+}
+
+.small-screen-warning p {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+}
