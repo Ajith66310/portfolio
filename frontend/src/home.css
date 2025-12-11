@@ -7,7 +7,7 @@
   --base-400: #b300ff;
   --base-500: #aaff00;
 
-  /* PREMIUM FONT VARIABLES */
+  /*FONT VARIABLES */
   --font-heading: "Space Grotesk", sans-serif;
   --font-body: "Manrope", sans-serif;
   --font-decorative: "Neucha", cursive;
@@ -178,9 +178,9 @@ img {
   }
 }
 
-.hero h1 .block-line-wrapper{
+/* .hero h1 .block-line-wrapper{
 margin: 0 auto;
-}
+} */
 
 .block-line-wrapper{
   position: relative;

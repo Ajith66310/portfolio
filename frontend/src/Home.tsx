@@ -5,6 +5,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
 import TextAnimation from './components/TextAnimation.tsx';
+import Project from './components/Project.tsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -128,6 +129,12 @@ const Home = () => {
         </h1>
         </TextAnimation>
       </section>
+
+
+    <section id='work'>
+<Project/>
+    </section>
+
     </>
   )
 }
