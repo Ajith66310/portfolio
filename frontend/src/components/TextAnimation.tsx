@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import SplitText from "gsap/SplitText";
 import ScrollTrigger from "gsap/ScrollTrigger";
@@ -30,16 +30,28 @@ const TextAnimation: React.FC<AnimationProps> = ({
   const blocks = useRef<HTMLElement[]>([]);
   const triggers = useRef<ScrollTrigger[]>([]);
 
+  const [ready, setReady] = useState(false);
+
+  // ✅ Wait until ScreenWarning is gone
+  useEffect(() => {
+    if ((window as any).__INTRO_BLOCKED__) {
+      const handler = () => {
+        window.removeEventListener("intro-unblocked", handler);
+        setReady(true);
+      };
+      window.addEventListener("intro-unblocked", handler);
+    } else {
+      setReady(true);
+    }
+  }, []);
+
   useGSAP(
-    async() => {
+    async () => {
+      if (!ready) return; // DO NOT initialize animations until ready
       const container = containerRef.current;
       if (!container) return;
-      
 
-
-        if (document.fonts) {
-      await document.fonts.ready;
-    }
+      if (document.fonts) await document.fonts.ready;
 
       // RESET
       splitRefs.current = [];
@@ -54,7 +66,6 @@ const TextAnimation: React.FC<AnimationProps> = ({
           type: "lines",
           linesClass: "block-line",
         });
-
         splitRefs.current.push(split);
 
         split.lines.forEach((line) => {
@@ -90,46 +101,31 @@ const TextAnimation: React.FC<AnimationProps> = ({
       ) => {
         return gsap
           .timeline({ delay: delay + index * stagger })
-          .to(block, {
-            scaleX: 1,
-            duration,
-            ease: "power4.inOut",
-          })
+          .to(block, { scaleX: 1, duration, ease: "power4.inOut" })
           .set(line, { opacity: 1 })
           .set(block, { transformOrigin: "right center" })
-          .to(block, {
-            scaleX: 0,
-            duration,
-            ease: "power4.inOut",
-          });
+          .to(block, { scaleX: 0, duration, ease: "power4.inOut" });
       };
 
       if (animateOnScroll) {
-    const master = gsap.timeline({ paused: true });
+        const master = gsap.timeline({ paused: true });
+        blocks.current.forEach((block, i) => master.add(playLine(block, lines.current[i], i), 0));
 
-blocks.current.forEach((block, i) => {
-  master.add(playLine(block, lines.current[i], i), 0);
-});
-
-const trigger = ScrollTrigger.create({
-  trigger: container,
-  start: "top 85%",
-  once: true,
-  onEnter: () => master.play(),
-});
-
-triggers.current.push(trigger);
-
-      } else {
-        blocks.current.forEach((block, i) => {
-          playLine(block, lines.current[i], i);
+        const trigger = ScrollTrigger.create({
+          trigger: container,
+          start: "top 85%",
+          once: true,
+          onEnter: () => master.play(),
         });
+
+        triggers.current.push(trigger);
+      } else {
+        blocks.current.forEach((block, i) => playLine(block, lines.current[i], i));
       }
 
       return () => {
         triggers.current.forEach((t) => t.kill());
         splitRefs.current.forEach((s) => s.revert());
-
         container.querySelectorAll(".block-line-wrapper").forEach((wrapper) => {
           const w = wrapper as HTMLElement;
           const first = w.firstChild as HTMLElement | null;
@@ -142,7 +138,7 @@ triggers.current.push(trigger);
     },
     {
       scope: containerRef,
-      dependencies: [animateOnScroll, delay, blockColor, stagger, duration],
+      dependencies: [ready, animateOnScroll, delay, blockColor, stagger, duration],
     }
   );
 
