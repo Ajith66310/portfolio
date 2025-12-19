@@ -46,18 +46,42 @@
   font-size: 0.85rem;
   opacity: 0.6;
 }
-.btn-open-browser {
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #fff;
-  background-color: #f9a837;
-  border: none;
-  border-radius: 1rem;
-  cursor: pointer;
+
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin: 20px 0;
 }
 
-.btn-open-browser:hover {
-  background-color: #ffb84d;
+.primary-btn, .secondary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.primary-btn {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.secondary-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.instruction-text {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  line-height: 1.4;
 }
