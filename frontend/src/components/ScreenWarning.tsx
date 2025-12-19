@@ -49,7 +49,7 @@ const ScreenWarning = () => {
 
         {isInsta && (
           <p>
-            You are opening this site inside Instagram. Animations may not work correctly. 
+            You are opening this site inside Instagram. Animations may not work correctly.
             Please open this link in your default browser for the best experience.
           </p>
         )}
@@ -61,12 +61,18 @@ const ScreenWarning = () => {
             I recommend viewing it on a desktop or tablet.
           </p>
         )}
-
+        
         {isInsta && (
-          <button className="btn-open-browser" onClick={openInBrowser}>
+          <a
+            href={window.location.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-open-browser"
+          >
             Open in Browser
-          </button>
+          </a>
         )}
+
 
         <span className="hint">
           Continuing automatically…
