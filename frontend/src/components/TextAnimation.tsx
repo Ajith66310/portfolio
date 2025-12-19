@@ -31,9 +31,15 @@ const TextAnimation: React.FC<AnimationProps> = ({
   const triggers = useRef<ScrollTrigger[]>([]);
 
   useGSAP(
-    () => {
+    async() => {
       const container = containerRef.current;
       if (!container) return;
+      
+
+
+        if (document.fonts) {
+      await document.fonts.ready;
+    }
 
       // RESET
       splitRefs.current = [];
@@ -99,29 +105,26 @@ const TextAnimation: React.FC<AnimationProps> = ({
       };
 
       if (animateOnScroll) {
-        blocks.current.forEach((block, i) => {
-          const tl = playLine(block, lines.current[i], i);
-          tl.pause();
+    const master = gsap.timeline({ paused: true });
 
-          const trigger = ScrollTrigger.create({
-            trigger: container,
-            start: "top 85%",
-            once: true,
-            onEnter: () => tl.play(),
-          });
+blocks.current.forEach((block, i) => {
+  master.add(playLine(block, lines.current[i], i), 0);
+});
 
-          triggers.current.push(trigger);
-        });
+const trigger = ScrollTrigger.create({
+  trigger: container,
+  start: "top 85%",
+  once: true,
+  onEnter: () => master.play(),
+});
+
+triggers.current.push(trigger);
+
       } else {
         blocks.current.forEach((block, i) => {
           playLine(block, lines.current[i], i);
         });
       }
-
-      // 🔑 VERY IMPORTANT
-      requestAnimationFrame(() => {
-        ScrollTrigger.refresh();
-      });
 
       return () => {
         triggers.current.forEach((t) => t.kill());

@@ -74,7 +74,8 @@ img {
 }
 
 .hero h1, .outro h1 {
-  width: 60%;
+   max-width: 900px;
+  width: 100%;
   text-align: center;
 }
 
