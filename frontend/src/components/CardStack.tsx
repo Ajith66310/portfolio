@@ -32,79 +32,59 @@ const Card: React.FC<CardProps> = ({ title, copy, index }) => {
 const CardStack: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
 
-  useGSAP(
-    () => {
+useGSAP(
+  () => {
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-      // Get all cards
-      const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
+    // Disable animations on mobile
+    if (isMobile) {
+      ScrollTrigger.getAll().forEach(t => t.kill());
+      return;
+    }
 
-      if (cardElements.length === 0) return;
+    const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
+    if (!cardElements.length) return;
 
-      // Outro pin
+    ScrollTrigger.create({
+      trigger: cardElements[0],
+      start: "top 35%",
+      endTrigger: cardElements[cardElements.length - 1],
+      end: "top 30%",
+      pin: ".stack-intro",
+      pinSpacing: false,
+    });
+
+    cardElements.forEach((card, index) => {
+      const isLast = index === cardElements.length - 1;
+      const cardInner = card.querySelector(".card-inner");
+
       ScrollTrigger.create({
-        trigger: cardElements[0],
-        start: "top 35%",
-        endTrigger: cardElements[cardElements.length - 1],
-        end: "top 30%",
-        pin: ".stack-intro",
+        trigger: card,
+        start: "top 25%",
+        pin: true,
         pinSpacing: false,
       });
 
-      // Animate stack
-      cardElements.forEach((card, index) => {
-        const isLastCard = index === cardElements.length - 1;
-        const cardInner = card.querySelector<HTMLDivElement>(".card-inner");
-
-        const isMobile = window.innerWidth < 768;
-
-        ScrollTrigger.create({
-          trigger: card,
-          start: isMobile ? "top 15%" : "top 25%",
-          pin: !isMobile,
-          pinSpacing: !isMobile,
-        });
-
-        if (!isLastCard) {
-          ScrollTrigger.create({
+      if (!isLast && cardInner) {
+        gsap.to(cardInner, {
+          y: `-${(cardElements.length - index) * 5}vh`,
+          ease: "none",
+          scrollTrigger: {
             trigger: card,
-            start: "top 25%",
+            start: "top 35%",
             endTrigger: ".stack-outro",
             end: "top 65%",
-            pin: true,
-            pinSpacing: false,
-          });
-
-          gsap.to(cardInner, {
-            y: `-${(cardElements.length - index) * 5}vh`,
-            ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 35%",
-              endTrigger: ".stack-outro",
-              end: "top 65%",
-              scrub: true,
-            }
-          });
-        }
-      });
-
-      return () => {
-        ScrollTrigger.getAll().forEach((t) => {
-          const trigger = t.vars.trigger;
-
-          if (
-            container.current &&
-            trigger instanceof Element &&
-            container.current.contains(trigger)
-          ) {
-            t.kill();
-          }
+            scrub: true,
+          },
         });
-      };
+      }
+    });
 
-    },
-    { scope: container }
-  );
+    return () => ScrollTrigger.getAll().forEach(t => t.kill());
+  },
+  { scope: container }
+);
+
 
   return (
     <>
