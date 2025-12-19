@@ -7,14 +7,15 @@ const ScreenWarning = () => {
   const [isInsta, setIsInsta] = useState(false);
 
   useEffect(() => {
-    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    // Detect Instagram in-app browser
+    const ua = navigator.userAgent || navigator.vendor || "";
     const inInstagram = /Instagram|FBAN/.test(ua);
     setIsInsta(inInstagram);
 
     const isSmallScreen = window.innerWidth < 1000 || inInstagram;
     if (!isSmallScreen) return;
 
-    //  BLOCK INTRO ANIMATIONS
+    // BLOCK INTRO ANIMATIONS
     (window as any).__INTRO_BLOCKED__ = true;
 
     setShow(true);
@@ -22,7 +23,7 @@ const ScreenWarning = () => {
     const timer = setTimeout(() => {
       setShow(false);
 
-      //  UNBLOCK + NOTIFY
+      // UNBLOCK + NOTIFY
       (window as any).__INTRO_BLOCKED__ = false;
       window.dispatchEvent(new Event("intro-unblocked"));
     }, 8000);
