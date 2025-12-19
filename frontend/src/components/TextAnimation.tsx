@@ -25,37 +25,34 @@ const TextAnimation: React.FC<AnimationProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const splitRefs = useRef<any[]>([]);
+  const splitRefs = useRef<SplitText[]>([]);
   const lines = useRef<HTMLElement[]>([]);
   const blocks = useRef<HTMLElement[]>([]);
+  const triggers = useRef<ScrollTrigger[]>([]);
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      const container = containerRef.current;
+      if (!container) return;
 
+      // RESET
       splitRefs.current = [];
       lines.current = [];
       blocks.current = [];
+      triggers.current = [];
 
-      let elements: HTMLElement[] = [];
-
-      if (containerRef.current.hasAttribute("data-copy-wrapper")) {
-        elements = Array.from(containerRef.current.children) as HTMLElement[];
-      } else {
-        elements = [containerRef.current];
-      }
+      const elements = Array.from(container.children) as HTMLElement[];
 
       elements.forEach((element) => {
         const split = new SplitText(element, {
           type: "lines",
-          linesClass: "block-line++",
-          lineThreshold: 0.1,
+          linesClass: "block-line",
         });
 
         splitRefs.current.push(split);
 
         split.lines.forEach((line) => {
-          const node = line as HTMLElement; 
+          const node = line as HTMLElement;
           const parent = node.parentNode as HTMLElement;
 
           const wrapper = document.createElement("div");
@@ -72,26 +69,26 @@ const TextAnimation: React.FC<AnimationProps> = ({
           lines.current.push(node);
           blocks.current.push(block);
         });
-
       });
 
       gsap.set(lines.current, { opacity: 0 });
-      gsap.set(blocks.current, { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(blocks.current, {
+        scaleX: 0,
+        transformOrigin: "left center",
+      });
 
-      const createBlockRevealAnimation = (
+      const playLine = (
         block: HTMLElement,
         line: HTMLElement,
         index: number
       ) => {
-        const tl = gsap.timeline({
-          delay: delay + index * stagger,
-        });
-
-        tl.to(block, {
-          scaleX: 1,
-          duration,
-          ease: "power4.inOut",
-        })
+        return gsap
+          .timeline({ delay: delay + index * stagger })
+          .to(block, {
+            scaleX: 1,
+            duration,
+            ease: "power4.inOut",
+          })
           .set(line, { opacity: 1 })
           .set(block, { transformOrigin: "right center" })
           .to(block, {
@@ -99,45 +96,38 @@ const TextAnimation: React.FC<AnimationProps> = ({
             duration,
             ease: "power4.inOut",
           });
-
-        return tl;
       };
 
       if (animateOnScroll) {
-        blocks.current.forEach((block, index) => {
-          const tl = createBlockRevealAnimation(
-            block,
-            lines.current[index],
-            index
-          );
-
+        blocks.current.forEach((block, i) => {
+          const tl = playLine(block, lines.current[i], i);
           tl.pause();
 
-          ScrollTrigger.create({
-            trigger: containerRef.current,
-            start: "top 90%",
+          const trigger = ScrollTrigger.create({
+            trigger: container,
+            start: "top 85%",
             once: true,
             onEnter: () => tl.play(),
           });
+
+          triggers.current.push(trigger);
         });
       } else {
-        blocks.current.forEach((block, index) => {
-          createBlockRevealAnimation(
-            block,
-            lines.current[index],
-            index
-          );
+        blocks.current.forEach((block, i) => {
+          playLine(block, lines.current[i], i);
         });
       }
 
+      // 🔑 VERY IMPORTANT
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+      });
+
       return () => {
-        splitRefs.current.forEach((split) => split?.revert?.());
+        triggers.current.forEach((t) => t.kill());
+        splitRefs.current.forEach((s) => s.revert());
 
-        const wrappers = containerRef.current?.querySelectorAll(
-          ".block-line-wrapper"
-        );
-
-        wrappers?.forEach((wrapper) => {
+        container.querySelectorAll(".block-line-wrapper").forEach((wrapper) => {
           const w = wrapper as HTMLElement;
           const first = w.firstChild as HTMLElement | null;
           if (first && w.parentNode) {
@@ -153,11 +143,7 @@ const TextAnimation: React.FC<AnimationProps> = ({
     }
   );
 
-  return (
-    <div ref={containerRef} data-copy-wrapper="true">
-      {children}
-    </div>
-  );
+  return <div ref={containerRef}>{children}</div>;
 };
 
 export default TextAnimation;

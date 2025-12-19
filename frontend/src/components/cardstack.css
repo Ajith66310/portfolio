@@ -171,8 +171,9 @@
 @media (max-width: 500px) {
   .quote-heading {
     font-size: 2rem;
+    line-height: 5rem;
   }
-
+   
   .quote-author {
     font-size: 1.2rem;
   }

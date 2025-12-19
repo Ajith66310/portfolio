@@ -3,7 +3,6 @@ import img, { cards } from "../assets/assest";
 import type { Cards } from "../assets/assest";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Lenis from "lenis";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import TextAnimation from "./TextAnimation";
@@ -18,14 +17,14 @@ const Card: React.FC<CardProps> = ({ title, copy, index }) => {
   return (
     <div className="card-block">
 
-    <div className="card" id={`card-${index + 1}`}>
-      <div className="card-inner">
-        <div className="card-content">
-          <h1>{title}</h1>
-         <p dangerouslySetInnerHTML={{ __html: copy || "" }} />
+      <div className="card" id={`card-${index + 1}`}>
+        <div className="card-inner">
+          <div className="card-content">
+            <h1>{title}</h1>
+            <p dangerouslySetInnerHTML={{ __html: copy || "" }} />
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };
@@ -35,10 +34,6 @@ const CardStack: React.FC = () => {
 
   useGSAP(
     () => {
-    const lenis = new Lenis();
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
 
       // Get all cards
       const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
@@ -51,7 +46,7 @@ const CardStack: React.FC = () => {
         start: "top 35%",
         endTrigger: cardElements[cardElements.length - 1],
         end: "top 30%",
-        pin:".stack-intro",
+        pin: ".stack-intro",
         pinSpacing: false,
       });
 
@@ -59,6 +54,15 @@ const CardStack: React.FC = () => {
       cardElements.forEach((card, index) => {
         const isLastCard = index === cardElements.length - 1;
         const cardInner = card.querySelector<HTMLDivElement>(".card-inner");
+
+        const isMobile = window.innerWidth < 768;
+
+        ScrollTrigger.create({
+          trigger: card,
+          start: isMobile ? "top 15%" : "top 25%",
+          pin: !isMobile,
+          pinSpacing: !isMobile,
+        });
 
         if (!isLastCard) {
           ScrollTrigger.create({
@@ -85,58 +89,67 @@ const CardStack: React.FC = () => {
       });
 
       return () => {
-        ScrollTrigger.getAll().forEach((trigger) =>
-          trigger.kill()
-        )
-      }
+        ScrollTrigger.getAll().forEach((t) => {
+          const trigger = t.vars.trigger;
+
+          if (
+            container.current &&
+            trigger instanceof Element &&
+            container.current.contains(trigger)
+          ) {
+            t.kill();
+          }
+        });
+      };
+
     },
     { scope: container }
   );
 
   return (
     <>
-<div className="app"  ref={container}>
+      <div className="app" ref={container}>
 
-<section className="stack-intro w-full min-h-screen flex items-center px-10 gap-12">
+        <section className="stack-intro w-full min-h-screen flex items-center px-10 gap-12">
 
-  {/* LEFT IMAGE */}
-  <div className="w-1/2">
-    <div className="w-full h-[450px] overflow-hidden rounded-3xl">
-      <img
-        src={img.ajith}
-        alt="intro visual"
-        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-      />
-    </div>
-  </div>
+          {/* LEFT IMAGE */}
+          <div className="w-1/2">
+            <div className="w-full h-[450px] overflow-hidden rounded-3xl">
+              <img
+                src={img.ajith}
+                alt="intro visual"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              />
+            </div>
+          </div>
 
-  {/* RIGHT TEXT */}
+          {/* RIGHT TEXT */}
 
-<div className="right-text">
-  <TextAnimation animateOnScroll blockColor="#fff">
-  <h1 className="quote-heading">
-    “कर्म करो, फल की चिंता मत करो”
-    {/* <span className="quote-author"></span> */}
-  </h1>
-  </TextAnimation>
-</div>
+          <div className="right-text">
+            <TextAnimation animateOnScroll blockColor="#fff">
+              <h1 className="quote-heading">
+                “कर्म करो, फल की चिंता मत करो”
+                {/* <span className="quote-author"></span> */}
+              </h1>
+            </TextAnimation>
+          </div>
 
-</section>
+        </section>
 
 
-      <section className="cards">
-        {cards.map((card, index) => (
-          <Card key={index} {...card} index={index} />
-        ))}
-      </section>
+        <section className="cards">
+          {cards.map((card, index) => (
+            <Card key={index} {...card} index={index} />
+          ))}
+        </section>
 
-      <section className="stack-outro ">
-        <TextAnimation animateOnScroll blockColor="#b300ff" >
+        <section className="stack-outro ">
+          <TextAnimation animateOnScroll blockColor="#b300ff" >
 
-        <h1>Let's build something that will be remembered.</h1>
-        </TextAnimation>
-      </section>
-        </div>
+            <h1>Let's build something that will be remembered.</h1>
+          </TextAnimation>
+        </section>
+      </div>
     </>
   );
 };

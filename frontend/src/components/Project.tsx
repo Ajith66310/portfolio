@@ -2,7 +2,6 @@ import { useGSAP } from "@gsap/react";
 import "./project.css";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Lenis from "lenis";
 import { projects } from "../assets/assest";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -17,10 +16,6 @@ interface ProjectItem {
 
 const Project = () => {
   useGSAP(() => {
-    const lenis = new Lenis();
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
 
     const workContainer = document.querySelector(".work");
     if (!workContainer) return;
