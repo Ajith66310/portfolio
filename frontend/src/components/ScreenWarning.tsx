@@ -28,6 +28,10 @@ const ScreenWarning = () => {
     }
   }, []);
 
+  const openInBrowser = () => {
+    window.open(window.location.href, "_blank", "noopener,noreferrer");
+  };
+
   if (isInsta) {
     // Show only redirect button for Instagram in-app browser
     return (
@@ -40,17 +44,17 @@ const ScreenWarning = () => {
 
           <h2>Open in Your Browser</h2>
           <p>
-            You are currently using Instagram's in-app browser. For the best experience with animations and interactions, please open this link in your default browser.
+            You are currently using Instagram's in-app browser. For the best
+            experience with animations and interactions, please open this link
+            in your default browser.
           </p>
 
-          <a
-            href={window.location.href}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={openInBrowser}
             className="btn-open-browser"
           >
             Open in Browser
-          </a>
+          </button>
         </div>
       </div>
     );
@@ -74,9 +78,7 @@ const ScreenWarning = () => {
           I recommend viewing it on a desktop or tablet.
         </p>
 
-        <span className="hint">
-          Continuing automatically…
-        </span>
+        <span className="hint">Continuing automatically…</span>
       </div>
     </div>
   );
