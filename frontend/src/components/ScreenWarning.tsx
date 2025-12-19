@@ -28,12 +28,8 @@ const ScreenWarning = () => {
     }
   }, []);
 
-  const openInBrowser = () => {
-    window.open(window.location.href, "_blank", "noopener,noreferrer");
-  };
-
+  // Instagram users: show clear instruction instead of trying to redirect
   if (isInsta) {
-    // Show only redirect button for Instagram in-app browser
     return (
       <div className="screen-warning">
         <div className="screen-warning-content">
@@ -44,17 +40,16 @@ const ScreenWarning = () => {
 
           <h2>Open in Your Browser</h2>
           <p>
-            You are currently using Instagram's in-app browser. For the best
-            experience with animations and interactions, please open this link
-            in your default browser.
+            You are currently using Instagram's in-app browser. Instagram blocks automatic redirects, so to experience this website fully, please:
           </p>
+          <ol>
+            <li>Tap the "⋯" menu at the top-right corner of Instagram.</li>
+            <li>Select <strong>"Open in Browser"</strong>.</li>
+          </ol>
 
-          <button
-            onClick={openInBrowser}
-            className="btn-open-browser"
-          >
-            Open in Browser
-          </button>
+          <p className="note">
+            This ensures all animations and interactions work as intended.
+          </p>
         </div>
       </div>
     );
@@ -62,7 +57,7 @@ const ScreenWarning = () => {
 
   if (!showWarning) return null;
 
-  // Show normal small-screen warning for mobile browsers
+  // Normal small-screen warning for mobile browsers
   return (
     <div className="screen-warning">
       <div className="screen-warning-content">
@@ -73,9 +68,7 @@ const ScreenWarning = () => {
 
         <h2>Best Viewed on Larger Screens</h2>
         <p>
-          This experience uses motion-driven interactions designed for larger
-          screens. For the most immersive and visually accurate experience,
-          I recommend viewing it on a desktop or tablet.
+          This experience uses motion-driven interactions designed for larger screens. For the most immersive and visually accurate experience, I recommend viewing it on a desktop or tablet.
         </p>
 
         <span className="hint">Continuing automatically…</span>
