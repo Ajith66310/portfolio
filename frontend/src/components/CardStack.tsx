@@ -35,13 +35,13 @@ const CardStack: React.FC = () => {
   useGSAP(
     () => {
 
-       const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    //    const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-    // Disable animations on mobile
-    if (isMobile) {
-      ScrollTrigger.getAll().forEach(t => t.kill());
-      return;
-    }
+    // // Disable animations on mobile
+    // if (isMobile) {
+    //   ScrollTrigger.getAll().forEach(t => t.kill());
+    //   return;
+    // }
       // Get all cards
       const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
 
