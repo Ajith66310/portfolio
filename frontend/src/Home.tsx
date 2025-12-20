@@ -49,17 +49,17 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-  const onLoad = () => ScrollTrigger.refresh();
-  window.addEventListener("load", onLoad);
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
 
-  return () => window.removeEventListener("load", onLoad);
-}, []);
+    return () => window.removeEventListener("load", onLoad);
+  }, []);
 
 
 
   return (
     <>
-     <ScreenWarning />
+      <ScreenWarning />
       <a href={img.cv} download className="btn-download">
         Download CV
       </a>
@@ -132,15 +132,13 @@ const Home = () => {
         </div>
 
         <div className="svg-path">
-          <svg width="1414" height="3651" viewBox="0 0 1414 3651" fill="none">
+          <svg width="1554" height="3791" viewBox="0 0 1554 3791" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               id="stroke-path"
-              d="M637.575 96.337C637.575 96.337 17.0751 -42.6631 97.0754 981.337C177.076 2005.34 977.074 885.337 1289.08 1989.34C1601.08 3093.34 -301.925 2947.34 234.075 2083.34C770.075 1219.34 695.075 2992.34 839.075 3560.34"
-              stroke="#F6D3BD"
-              strokeWidth="180"
-              strokeLinecap="round"
-            />
+
+              d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 909.04 3630.34 909.04 3630.34" stroke="#F6D3BD" stroke-width="320" stroke-linecap="round" />
           </svg>
+
         </div>
       </section>
 
