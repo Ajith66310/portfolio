@@ -32,7 +32,7 @@ const TextAnimation: React.FC<AnimationProps> = ({
 
   const [ready, setReady] = useState(false);
 
-  // ✅ Wait until ScreenWarning is gone
+  // Wait until ScreenWarning is gone
   useEffect(() => {
     if ((window as any).__INTRO_BLOCKED__) {
       const handler = () => {
