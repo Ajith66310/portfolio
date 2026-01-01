@@ -7,7 +7,7 @@ import proj2 from "./proj2.jpg";
 import proj3 from "./proj3.png";
 import proj4 from "./proj4.png";
 import ajith from './ajithimg.jpg'
-import cv from "./AjithkvCV.pdf";
+import cv from "./Ajithkvcv.pdf";
 
 export interface ProjectItem {
   name: string;
