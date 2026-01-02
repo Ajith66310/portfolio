@@ -15,24 +15,34 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   useEffect(() => {
-    const lenis = new Lenis();
-
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
+    // 1. Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
+
+    // 2. Sync Lenis with ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update);
+    
+    const tickerCb = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+    gsap.ticker.add(tickerCb);
     gsap.ticker.lagSmoothing(0);
 
+    // 3. Setup SVG Animation
     const isMobile = window.matchMedia("(max-width: 1000px)").matches;
-
-    const path = document.getElementById(
-      isMobile ? "stroke-path-mobile" : "stroke-path-desktop"
-    );
+    const pathId = isMobile ? "stroke-path-mobile" : "stroke-path-desktop";
+    const path = document.getElementById(pathId);
 
     if (path instanceof SVGPathElement) {
       const pathLength = path.getTotalLength();
-      path.style.strokeDasharray = `${pathLength} ${pathLength}`;
-      path.style.strokeDashoffset = `${pathLength}`;
+      
+      // Initial state
+      gsap.set(path, {
+        strokeDasharray: pathLength,
+        strokeDashoffset: pathLength
+      });
 
       gsap.to(path, {
         strokeDashoffset: 0,
@@ -42,24 +52,39 @@ const Home = () => {
           start: "top top",
           end: "bottom bottom",
           scrub: true,
+          invalidateOnRefresh: true, // Recalculates if window resizes
         },
       });
     }
 
+    // 4. Force a refresh after a small delay to ensure layout is painted
+    const refreshTimeout = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 500);
+
+    // 5. Cleanup
     return () => {
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      gsap.ticker.remove(tickerCb);
       lenis.destroy();
+      clearTimeout(refreshTimeout);
+      ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, []);
 
+  // Recalculate ScrollTrigger on full page load (important for mobile images)
   useEffect(() => {
-    const onLoad = () => ScrollTrigger.refresh();
-    window.addEventListener("load", onLoad);
+    const handleLoad = () => {
+      ScrollTrigger.refresh();
+    };
+    
+    window.addEventListener("load", handleLoad);
+    window.addEventListener("resize", handleLoad);
 
-    return () => window.removeEventListener("load", onLoad);
+    return () => {
+      window.removeEventListener("load", handleLoad);
+      window.removeEventListener("resize", handleLoad);
+    };
   }, []);
-
-
 
   return (
     <>
@@ -155,13 +180,19 @@ const Home = () => {
           </svg>
 
           {/* Mobile SVG */}
-          <svg width="1554" height="5040" viewBox="0 0 1554 5040" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg 
+            className="svg-mobile"
+            width="1554" height="5040" viewBox="0 0 1554 5040" fill="none" xmlns="http://www.w3.org/2000/svg"
+          >
             <path 
-            id="stroke-path-mobile"
-            d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 829.92 4880 829.92 4880" stroke="#F6D3BD" stroke-width="320" stroke-linecap="round" />
+              id="stroke-path-mobile"
+              d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 829.92 4880 829.92 4880" 
+              stroke="#F6D3BD" 
+              strokeWidth="320" 
+              strokeLinecap="round" 
+            />
           </svg>
         </div>
-
       </section>
 
       <section className="outro">
