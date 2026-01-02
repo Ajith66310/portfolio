@@ -22,7 +22,7 @@ const ScreenWarning = () => {
         setShowWarning(false);
         (window as any).__INTRO_BLOCKED__ = false;
         window.dispatchEvent(new Event("intro-unblocked"));
-      }, 8000);
+      }, 4000);
 
       return () => clearTimeout(timer);
     }
