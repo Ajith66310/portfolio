@@ -33,75 +33,42 @@ const CardStack: React.FC = () => {
 
   useGSAP(
     () => {
-      const mm = gsap.matchMedia();
       const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
 
       if (cardElements.length === 0) return;
 
-      // DESKTOP & TABLET ANIMATIONS
-      mm.add("(min-width: 901px)", () => {
-        // Outro pin (The Intro section stays while cards scroll)
+      cardElements.forEach((card, index) => {
+        const isLastCard = index === cardElements.length - 1;
+        const cardInner = card.querySelector(".card-inner");
+
+        // UNIVERSAL PINNING (Works on Desktop & Mobile)
         ScrollTrigger.create({
-          trigger: cardElements[0],
-          start: "top 35%",
-          endTrigger: cardElements[cardElements.length - 1],
-          end: "top 30%",
-          pin: ".stack-intro",
-          pinSpacing: false,
+          trigger: card,
+          start: "top top", // Pins when the card hits the very top
+          endTrigger: ".stack-outro",
+          end: "top 100%",
+          pin: true,
+          pinSpacing: false, // Allows the next card to roll over it
+          invalidateOnRefresh: true,
         });
 
-        // Animate stack logic
-        cardElements.forEach((card, index) => {
-          const isLastCard = index === cardElements.length - 1;
-          const cardInner = card.querySelector<HTMLDivElement>(".card-inner");
-
-          if (!isLastCard) {
-            ScrollTrigger.create({
-              trigger: card,
-              start: "top 25%",
-              endTrigger: ".stack-outro",
-              end: "top 65%",
-              pin: true,
-              pinSpacing: false,
-              // anticipatePin: 1, // Smooths out the start of the pin
-            });
-
-            gsap.to(cardInner, {
-              y: `-${(cardElements.length - index) * 5}vh`,
-              ease: "none",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 35%",
-                endTrigger: ".stack-outro",
-                end: "top 65%",
-                scrub: true,
-              },
-            });
-          }
-        });
+        // Effect for the card being covered
+        if (!isLastCard) {
+          gsap.to(cardInner, {
+            scale: 0.9,
+            opacity: 0.5,
+            ease: "none",
+            scrollTrigger: {
+              trigger: cardElements[index + 1], // Start effect when NEXT card arrives
+              start: "top 100%",
+              end: "top top",
+              scrub: true,
+            },
+          });
+        }
       });
 
-      // MOBILE ANIMATIONS (Fade in instead of pinning to prevent glitches)
-      mm.add("(max-width: 900px)", () => {
-        cardElements.forEach((card) => {
-          gsap.fromTo(
-            card,
-            { opacity: 0.8, scale: 0.95 },
-            {
-              opacity: 1,
-              scale: 1,
-              scrollTrigger: {
-                trigger: card,
-                start: "top 85%",
-                end: "top 50%",
-                scrub: true,
-              },
-            }
-          );
-        });
-      });
-
-      return () => mm.revert();
+      return () => ScrollTrigger.getAll().forEach(st => st.kill());
     },
     { scope: container }
   );
