@@ -23,7 +23,7 @@ const Home = () => {
 
     // 2. Sync Lenis with ScrollTrigger
     lenis.on("scroll", ScrollTrigger.update);
-    
+
     const tickerCb = (time: number) => {
       lenis.raf(time * 1000);
     };
@@ -37,7 +37,7 @@ const Home = () => {
 
     if (path instanceof SVGPathElement) {
       const pathLength = path.getTotalLength();
-      
+
       // Initial state
       gsap.set(path, {
         strokeDasharray: pathLength,
@@ -76,7 +76,7 @@ const Home = () => {
     const handleLoad = () => {
       ScrollTrigger.refresh();
     };
-    
+
     window.addEventListener("load", handleLoad);
     window.addEventListener("resize", handleLoad);
 
@@ -180,18 +180,13 @@ const Home = () => {
           </svg>
 
           {/* Mobile SVG */}
-          <svg 
-            className="svg-mobile"
-            width="1554" height="5040" viewBox="0 0 1554 5040" fill="none" xmlns="http://www.w3.org/2000/svg"
-          >
-            <path 
-              id="stroke-path-mobile"
-              d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 829.92 4880 829.92 4880" 
-              stroke="#F6D3BD" 
-              strokeWidth="320" 
-              strokeLinecap="round" 
-            />
+          <svg width="1554" height="6048" viewBox="0 0 1554 6048" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              className="svg-mobile"
+
+              d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 813.92 5888 813.92 5888" stroke="#F6D3BD" stroke-width="320" stroke-linecap="round" />
           </svg>
+
         </div>
       </section>
 
