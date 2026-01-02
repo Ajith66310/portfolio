@@ -178,13 +178,13 @@ const Home = () => {
               strokeLinecap="round"
             />
           </svg>
-
           {/* Mobile SVG */}
-          <svg
-            className="svg-mobile"
-            width="1554" height="5376" viewBox="0 0 1554 5376" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="stroke-path-mobile" d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 797.92 5216 797.92 5216" stroke="#F6D3BD" stroke-width="320" stroke-linecap="round" />
+          <svg className="svg-mobile"
+            width="1554" height="5776" viewBox="0 0 1554 5776" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="stroke-path-mobile"
+              d="M707.54 166.337C707.54 166.337 87.0399 27.3369 167.04 1051.34C247.041 2075.34 1047.04 955.337 1359.04 2059.34C1671.04 3163.34 -227.58 3009.5 308.42 2145.5C844.42 1281.5 707.54 5616 707.54 5616" stroke="#F6D3BD" stroke-width="320" stroke-linecap="round" />
           </svg>
+
 
         </div>
       </section>
