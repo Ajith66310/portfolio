@@ -88,7 +88,7 @@ const Home = () => {
 
   return (
     <>
-      <ScreenWarning />
+      {/* <ScreenWarning /> */}
       <a href={img.cv} download className="btn-download">
         Download CV
       </a>
