@@ -120,20 +120,19 @@ img {
   gap: 1rem;
 }
 
-.spotlight .svg-path {
+.spotlight .svg-path{
   position: absolute;
-  top: 0; /* Changed from 25svh to 0 so start points match */
+  top: 25svh;
   left: 50%;
   transform: translate(-50%);
   width: 90%;
-  height: 100%; /* Spans the full spotlight section */
+  height: 100%;
   z-index: -1;
 }
 
-.spotlight .svg-path svg {
+.spotlight .svg-path svg{
   width: 100%;
-  height: 100%; /* Force SVG to fill the container height */
-  display: block;
+  height: auto;
 }
 
 /* Top-right CV button */
@@ -223,13 +222,11 @@ img {
 
   .spotlight .card{
     width: 100%;
-    height: fit-content;
   }
 
-.spotlight .svg-path {
-    top: 0; /* Ensure start point is top */
-    width: 180%; /* Dramatic curve for mobile */
-    height: 100%;
+  .spotlight .svg-path{
+    top: 15svh;
+    width: 180%;
   }
 }
 
@@ -261,11 +258,25 @@ margin: 0 auto;
 
   /* SVG visibility control */
 .svg-desktop {
+  display: block;
+}
+
+.svg-mobile {
+  display: none;
+}
+
+/* Small screens */
+@media (max-width: 1000px) {
+  .svg-desktop {
     display: none;
   }
 
   .svg-mobile {
     display: block;
-    overflow: visible; /* Prevents stroke clipping */
   }
 
+  .spotlight .svg-path {
+    top: 15svh;
+    width: 180%;
+  }
+}
