@@ -115,6 +115,7 @@ img {
   background-color: var(--base-400);
   border-radius: 1rem;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   gap: 1rem;
 }

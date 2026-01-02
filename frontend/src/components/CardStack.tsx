@@ -41,14 +41,14 @@ const CardStack: React.FC = () => {
         const isLastCard = index === cardElements.length - 1;
         const cardInner = card.querySelector(".card-inner");
 
-        // UNIVERSAL PINNING (Works on Desktop & Mobile)
+        // PIN IN CENTER
         ScrollTrigger.create({
           trigger: card,
-          start: "top top", // Pins when the card hits the very top
+          start: "center center", // When center of card hits center of viewport
           endTrigger: ".stack-outro",
           end: "top 100%",
           pin: true,
-          pinSpacing: false, // Allows the next card to roll over it
+          pinSpacing: false, 
           invalidateOnRefresh: true,
         });
 
@@ -59,9 +59,9 @@ const CardStack: React.FC = () => {
             opacity: 0.5,
             ease: "none",
             scrollTrigger: {
-              trigger: cardElements[index + 1], // Start effect when NEXT card arrives
+              trigger: cardElements[index + 1],
               start: "top 100%",
-              end: "top top",
+              end: "center center", // Finish shrinking when next card reaches center
               scrub: true,
             },
           });
