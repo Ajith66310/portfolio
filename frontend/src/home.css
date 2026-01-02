@@ -255,4 +255,27 @@ margin: 0 auto;
   z-index: 1;
 }
 
-  
+  /* SVG visibility control */
+.svg-desktop {
+  display: block;
+}
+
+.svg-mobile {
+  display: none;
+}
+
+/* Small screens */
+@media (max-width: 1000px) {
+  .svg-desktop {
+    display: none;
+  }
+
+  .svg-mobile {
+    display: block;
+  }
+
+  .spotlight .svg-path {
+    top: 15svh;
+    width: 180%;
+  }
+}
