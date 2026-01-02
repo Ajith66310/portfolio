@@ -9,7 +9,7 @@ import TextAnimation from './components/TextAnimation.tsx';
 import Project from './components/Project.tsx';
 import CardStack from './components/CardStack.tsx';
 import "./components/SmoothScroll.tsx";
-import ScreenWarning from "./components/ScreenWarning";
+// import ScreenWarning from "./components/ScreenWarning";
 
 gsap.registerPlugin(ScrollTrigger);
 
