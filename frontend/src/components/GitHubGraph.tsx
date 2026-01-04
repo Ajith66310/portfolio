@@ -48,7 +48,7 @@ const GitHubGraph: React.FC = () => {
           */}
           <div 
             ref={scrollContainerRef}
-            className="bg-white p-6 md:p-16 rounded-[40px] flex flex-col items-center overflow-x-auto no-scrollbar lg:overflow-visible transform lg:scale-125 origin-center transition-all duration-300"
+            className="bg-white p-6 md:p-16  flex flex-col items-center overflow-x-auto no-scrollbar lg:overflow-visible transform lg:scale-125 origin-center transition-all duration-300"
           >
             <div className="min-w-fit py-4">
               <GitHubCalendar 
