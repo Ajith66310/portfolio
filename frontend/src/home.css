@@ -111,6 +111,7 @@ img {
 .spotlight .card{
   width: 75%;
   margin: 0 auto;
+  height: fit-content;
   padding: 2rem;
   background-color: var(--base-400);
   border-radius: 1rem;
