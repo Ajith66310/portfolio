@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
 import TextAnimation from "./TextAnimation";
+import GitHubGraph from "./GitHubGraph";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,6 +92,11 @@ const CardStack: React.FC = () => {
             <h1 className="quote-heading">“कर्म करो, फल की चिंता मत करो”</h1>
           </TextAnimation>
         </div>
+      </section>
+      
+      
+      <section className="github-contributions">
+        <GitHubGraph />
       </section>
 
       <section className="cards">

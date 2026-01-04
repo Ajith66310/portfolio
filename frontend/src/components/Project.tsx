@@ -97,10 +97,6 @@ for (let i = 0; i < projects.length; i += 2) {
       <section className="work selection:bg-black selection:text-white "></section>
 
 
-      <footer>
-        <p>Developed by Ajith k v</p>
-        <p>All rights reserved © 2026</p>
-      </footer>
     </>
   );
 };

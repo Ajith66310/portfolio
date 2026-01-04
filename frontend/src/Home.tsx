@@ -109,6 +109,10 @@ const Home = () => {
         </TextAnimation>
       </section>
 
+      <section className="stack-cards">
+        <CardStack />
+      </section>
+
       <section className="spotlight">
         <div className="rows">
           <div className="img">
@@ -199,13 +203,16 @@ const Home = () => {
         </TextAnimation>
       </section>
 
-      <section className="stack-cards">
-        <CardStack />
-      </section>
+
 
       <section id="work">
         <Project />
       </section>
+
+      <footer>
+        <p>Developed by Ajith k v</p>
+        <p>All rights reserved © 2026</p>
+      </footer>
     </>
   );
 };
