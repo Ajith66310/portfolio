@@ -31,48 +31,47 @@ const Card: React.FC<CardProps> = ({ title, copy, index }) => {
 
 const CardStack: React.FC = () => {
   const container = useRef<HTMLDivElement | null>(null);
+useGSAP(
+  () => {
+    const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
+    if (cardElements.length === 0) return;
 
-  useGSAP(
-    () => {
-      const cardElements = gsap.utils.toArray<HTMLDivElement>(".card");
+    cardElements.forEach((card, index) => {
+      const isLastCard = index === cardElements.length - 1;
+      const cardInner = card.querySelector(".card-inner");
 
-      if (cardElements.length === 0) return;
-
-      cardElements.forEach((card, index) => {
-        const isLastCard = index === cardElements.length - 1;
-        const cardInner = card.querySelector(".card-inner");
-
-        // PIN IN CENTER
-        ScrollTrigger.create({
-          trigger: card,
-          start: "center center", // When center of card hits center of viewport
-          endTrigger: ".stack-outro",
-          end: "top 100%",
-          pin: true,
-          pinSpacing: false, 
-          invalidateOnRefresh: true,
-        });
-
-        // Effect for the card being covered
-        if (!isLastCard) {
-          gsap.to(cardInner, {
-            scale: 0.9,
-            opacity: 0.5,
-            ease: "none",
-            scrollTrigger: {
-              trigger: cardElements[index + 1],
-              start: "top 100%",
-              end: "center center", // Finish shrinking when next card reaches center
-              scrub: true,
-            },
-          });
-        }
+      // PIN IN CENTER
+      ScrollTrigger.create({
+        trigger: card,
+        start: "center center",
+        endTrigger: ".stack-outro",
+        end: "top 100%",
+        pin: true,
+        pinSpacing: false, 
+        anticipatePin: 1, // Smooths out the transition to pinning
+        invalidateOnRefresh: true,
       });
 
-      return () => ScrollTrigger.getAll().forEach(st => st.kill());
-    },
-    { scope: container }
-  );
+      if (!isLastCard) {
+        gsap.to(cardInner, {
+          scale: 0.9,
+          opacity: 0.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: cardElements[index + 1],
+            start: "top 100%",
+            end: "center center",
+            scrub: true,
+          },
+        });
+      }
+    });
+
+    // CRITICAL: Refresh all triggers after the card stack is set up
+    ScrollTrigger.refresh();
+  },
+  { scope: container }
+);
 
   return (
     <div className="app" ref={container} style={{ overflowX: "hidden" }}>
