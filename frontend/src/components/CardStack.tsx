@@ -88,7 +88,7 @@ useGSAP(
 
         <div className="right-text">
           <TextAnimation animateOnScroll blockColor="#fff">
-            <h1 className="quote-heading">“कर्म करो, फल की चिंता मत करो”</h1>
+            <h1 className="quote-heading">Every great developer was once a beginner who refused to give up today.</h1>
           </TextAnimation>
         </div>
       </section>
