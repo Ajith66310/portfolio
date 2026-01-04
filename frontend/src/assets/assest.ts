@@ -76,7 +76,7 @@ export const cards: Cards[] = [
 },
   {
     title: "#Tools",
-    copy: "Skilled with React 19, Redux Toolkit, Typescript, Tailwind CSS, GSAP, Framer Motion, Node.js, Express, MongoDB, JWT, Razorpay, Cloudinary, Redis, Clerk, Mailjet,Oauth and deployment platforms like Vercel & Render.",
+    copy: "Skilled with HTML, CSS, Javascript, React 19, Node.js, Express, MongoDB, Typescript, Bootstrap, Redux Toolkit, Tailwind CSS, GSAP, Framer Motion, JWT, Razorpay, Cloudinary, Redis, Clerk, Mailjet,Oauth and deployment platforms like Github Pages, Vercel & Render.",
   },
  {
   title: "#Social",
