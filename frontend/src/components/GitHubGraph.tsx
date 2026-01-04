@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {GitHubCalendar} from 'react-github-calendar';
 import { motion } from 'framer-motion';
 
 const GitHubGraph: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkSize = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      
+      // On mobile, auto-scroll to the right so user sees recent months first
+      if (mobile && scrollContainerRef.current) {
+        scrollContainerRef.current.scrollLeft = scrollContainerRef.current.scrollWidth;
+      }
+    };
+
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
+
   const githubGreenTheme = {
     light: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
     dark: ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'],
@@ -21,7 +40,16 @@ const GitHubGraph: React.FC = () => {
           rel="noopener noreferrer"
           className="block cursor-pointer transition-transform hover:scale-[1.01]"
         >
-          <div className="bg-white p-8 md:p-16 rounded-[40px] flex flex-col items-center overflow-x-auto transform lg:scale-125 origin-center transition-all duration-300">
+          {/* FIXED SCALING & SCROLLING:
+            - Removed global scale on mobile so blocks stay large (blockSize 14).
+            - overflow-x-auto: Allows swiping through all months on mobile.
+            - lg:scale-125: Restores your original desktop zoom.
+            - lg:overflow-visible: Ensures hover effects aren't clipped on desktop.
+          */}
+          <div 
+            ref={scrollContainerRef}
+            className="bg-white p-6 md:p-16 rounded-[40px] flex flex-col items-center overflow-x-auto no-scrollbar lg:overflow-visible transform lg:scale-125 origin-center transition-all duration-300"
+          >
             <div className="min-w-fit py-4">
               <GitHubCalendar 
                 username="Ajith66310"
@@ -38,18 +66,15 @@ const GitHubGraph: React.FC = () => {
                     <motion.rect
                       {...safeProps}
                       key={activity.date}
-                      // 1. Start at 0.1 scale instead of 0. 
-                      // Some mobile browsers fail to render/calculate SVGs starting at 0.
-                      initial={{ scale: 0.1, opacity: 0 }}
+                      // Keep animations for lg-screens, disable for mobile stability
+                      initial={isMobile ? { scale: 1, opacity: 1 } : { scale: 0.1, opacity: 0 }}
                       whileInView={{ scale: 1, opacity: 1 }}
-                      // 2. Add 'amount: 0.1'. This triggers the animation as soon as 
-                      // 10% of the block is in view, which is vital for mobile scrolling.
                       viewport={{ once: true, margin: "-10px", amount: 0.1 }}
                       transition={{
                         type: "spring",
                         stiffness: 150,
                         damping: 12,
-                        delay: (activity.level * 0.1) + (Math.random() * 0.2)
+                        delay: isMobile ? 0 : (activity.level * 0.1) + (Math.random() * 0.2)
                       }}
                       whileHover={{ 
                         scale: 1.5,
@@ -67,8 +92,18 @@ const GitHubGraph: React.FC = () => {
               />
             </div>
           </div>
+          
+          {/* Mobile Hint */}
+          <p className="text-gray-400 text-center text-xs mt-6 lg:hidden opacity-50">
+            Swipe to view full history
+          </p>
         </a>
       </div>
+
+      <style>{`
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </section>
   );
 };
