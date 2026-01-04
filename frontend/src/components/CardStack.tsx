@@ -5,7 +5,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRef } from "react";
-import TextAnimation from "./TextAnimation";
 import GitHubGraph from "./GitHubGraph";
 import RevealText from "./RevealText";
 
@@ -68,7 +67,6 @@ const CardStack: React.FC = () => {
         }
       });
 
-      // CRITICAL: Refresh all triggers after the card stack is set up
       ScrollTrigger.refresh();
     },
     { scope: container }
@@ -76,7 +74,7 @@ const CardStack: React.FC = () => {
 
   return (
     <div className="app" ref={container} style={{ overflowX: "hidden" }}>
-      <section className="stack-intro w-full min-h-screen flex items-center px-10 gap-12">
+      <section className="stack-intro w-full min-h-screen flex items-center px-10 gap-12 ">
         <div className="w-1/2 intro-img-container">
           <div className="w-full h-[450px] overflow-hidden rounded-3xl">
             <img
@@ -107,9 +105,7 @@ const CardStack: React.FC = () => {
       </section>
 
       <section className="stack-outro">
-        <TextAnimation animateOnScroll blockColor="#b300ff">
-          <h1 className="outro-text">Let's build something that will be remembered.</h1>
-        </TextAnimation>
+        <RevealText className="outro-text" text="Let's build something that will be remembered."/>  
       </section>
     </div>
   );

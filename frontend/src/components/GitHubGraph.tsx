@@ -28,7 +28,7 @@ const GitHubGraph: React.FC = () => {
   };
 
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center p-4">
+    <section className="w-full min-h-screen flex flex-col items-center justify-center p-4 ">
       <div className="w-full max-w-6xl mx-auto">
         <h2 className="text-white text-4xl md:text-5xl font-bold mb-10 text-center tracking-tighter">
           Code Contributions
