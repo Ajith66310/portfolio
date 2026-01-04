@@ -63,7 +63,29 @@
   font-weight: 500;
   font-family: var(--font-body);
 }
+.right-text {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
 
+.quote-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.2;
+  text-align: center;
+  color: var(--base-100);
+  /* Ensure the text has a stable container */
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Specific styling for the words */
+.quote-heading span {
+  will-change: transform, opacity, filter;
+}
 /* Card Colors */
 #card-1 .card-inner { background-color: limegreen; }
 #card-2 .card-inner { background-color: var(--base-200); }
